@@ -1,5 +1,6 @@
 package com.tola.payload.request;
 
+import com.tola.enums.CabinClassType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -27,11 +28,13 @@ public class FareRequest {
     @NotNull(message = "Cabin class ID is required")
     private Long cabinClassId;
 
+    private CabinClassType cabinClass;
+
     @NotNull(message = "Base fare is required")
     @Positive(message = "Base fare must be a positive value")
     private Double baseFare;
 
-    private Double texesAndFees;
+    private Double taxesAndFees;
     private Double airlineFees;
     private Double currentPrice;
 

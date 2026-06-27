@@ -27,12 +27,16 @@ public class Fare {
     private String name;
 
     @Column(nullable = false)
+    private Character rbdCode;
+
+    @Column(nullable = false)
     private Long flightId;
 
     @Column(nullable = false)
     private Long cabinClassId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "cabin_class", nullable = false)
     private CabinClassType cabinClass;
 
     @Column(nullable = false)
@@ -45,10 +49,12 @@ public class Fare {
     private Double currentPrice;
 
     private String fareLabel;
-    //TODO:
-    // private BaggagePolicy baggagePolicy;
 
-    //private FareRule fareRule;
+    @OneToOne(mappedBy = "fare", cascade = CascadeType.ALL, orphanRemoval = true)
+    private BaggagePolicy baggagePolicy;
+
+    @OneToOne(mappedBy = "fare", cascade = CascadeType.ALL, orphanRemoval = true)
+    private FareRules fareRules;
 
     @Embedded
     private SeatBenefits seatBenefits = new SeatBenefits();
@@ -73,4 +79,8 @@ public class Fare {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    public Double getTotalPrice() {
+        return baseFare + taxesAndFees + airlineFees + currentPrice;
+    }
 }
